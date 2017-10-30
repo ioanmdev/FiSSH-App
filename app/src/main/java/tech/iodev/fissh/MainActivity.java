@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private String COMPUTER_IP;
     private String PASSWORD;
 
+    public Boolean ScanRunning = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
     // Scan the Fingerprint!
     private void ScanFinger()
     {
+        if (ScanRunning) return;
+
         Toast.makeText(getApplicationContext(), "Ready to scan your finger!", Toast.LENGTH_SHORT).show();
         // If you’ve set your app’s minSdkVersion to anything lower than 23, then you’ll need to verify that the device is running Marshmallow
         // or higher before executing any fingerprint-related code
@@ -128,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     // for starting the authentication process (via the startAuth method) and processing the authentication process events//
                     FingerprintHandler helper = new FingerprintHandler(this);
                     helper.startAuth(fingerprintManager, cryptoObject, COMPUTER_IP, PASSWORD);
+                    ScanRunning = true;
                 }
             }
         }
@@ -251,6 +256,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void reportFatalError()
     {
+        ScanRunning = false;
+
         // Time to change the UI a little
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
         mainLayout.setBackgroundResource(R.color.colorBackgroundRed);
