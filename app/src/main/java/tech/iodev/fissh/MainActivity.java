@@ -3,6 +3,7 @@ package tech.iodev.fissh;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -82,11 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Scan the Fingerprint!
-    private void ScanFinger()
+    public void ScanFinger()
     {
         if (ScanRunning) return;
 
-        Toast.makeText(getApplicationContext(), "Ready to scan your finger!", Toast.LENGTH_SHORT).show();
         // If you’ve set your app’s minSdkVersion to anything lower than 23, then you’ll need to verify that the device is running Marshmallow
         // or higher before executing any fingerprint-related code
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     // Here, I’m referencing the FingerprintHandler class that we’ll create in the next section. This class will be responsible
                     // for starting the authentication process (via the startAuth method) and processing the authentication process events//
                     FingerprintHandler helper = new FingerprintHandler(this);
+                    Toast.makeText(getApplicationContext(), "Ready to scan your finger!", Toast.LENGTH_SHORT).show();
                     helper.startAuth(fingerprintManager, cryptoObject, COMPUTER_IP, PASSWORD);
                     ScanRunning = true;
                 }
@@ -257,6 +258,22 @@ public class MainActivity extends AppCompatActivity {
     public void reportFatalError()
     {
         ScanRunning = false;
+
+        // Display an error message
+        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+
+        bld.setTitle("Error");
+        bld.setMessage("Fingerprint authentication failed! Try again later!");
+
+        bld.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog errorMsg = bld.create();
+        errorMsg.show();
 
         // Time to change the UI a little
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
