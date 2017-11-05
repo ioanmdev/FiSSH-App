@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private KeyStore keyStore;
     private KeyGenerator keyGenerator;
     private FingerprintManager.CryptoObject cryptoObject;
+    private FingerprintHandler fingerprintHelper;
+
 
     public static final String PREFS_NAME = "FiSSH";
 
@@ -130,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
                     // Here, I’m referencing the FingerprintHandler class that we’ll create in the next section. This class will be responsible
                     // for starting the authentication process (via the startAuth method) and processing the authentication process events//
-                    FingerprintHandler helper = new FingerprintHandler(this);
+                    fingerprintHelper = new FingerprintHandler(this);
                     Toast.makeText(getApplicationContext(), "Ready to scan your finger!", Toast.LENGTH_SHORT).show();
-                    helper.startAuth(fingerprintManager, cryptoObject, COMPUTER_IP, PASSWORD);
+                    fingerprintHelper.startAuth(fingerprintManager, cryptoObject, COMPUTER_IP, PASSWORD);
                     ScanRunning = true;
                 }
             }
@@ -320,4 +322,14 @@ public class MainActivity extends AppCompatActivity {
         TextView fingerPrinttext = (TextView) findViewById(R.id.fingerprint_text);
         fingerPrinttext.setText("Please scan your fingerprint!");
     }
+
+    @Override
+    protected void onPause()
+    {
+        if (ScanRunning)
+            fingerprintHelper.cancelAuth();
+
+        super.onPause();
+    }
+
 }

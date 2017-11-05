@@ -45,6 +45,14 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
         manager.authenticate(cryptoObject, cancellationSignal, 0, this, null);
     }
 
+    public void cancelAuth()
+    {
+        // Send out the cancel!
+        cancellationSignal.cancel();
+        context.ScanRunning = false;
+    }
+
+
     @Override
     //onAuthenticationError is called when a fatal error has occurred. It provides the error code and error message as its parameters//
 
