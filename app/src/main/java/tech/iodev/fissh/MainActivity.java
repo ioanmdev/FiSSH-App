@@ -283,6 +283,34 @@ public class MainActivity extends AppCompatActivity {
         fingerPrinttext.setText("Scanning failed! Click retry!");
     }
 
+    public void reportFatalNetworkError()
+    {
+        ScanRunning = false;
+
+        // Display an error message
+        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+
+        bld.setTitle("Error");
+        bld.setMessage("Network Error! Check your connection and Try again!");
+
+        bld.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog errorMsg = bld.create();
+        errorMsg.show();
+
+        // Time to change the UI a little
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+        mainLayout.setBackgroundResource(R.color.colorBackgroundRed);
+
+        TextView fingerPrinttext = (TextView) findViewById(R.id.fingerprint_text);
+        fingerPrinttext.setText("Network failed! Click retry!");
+    }
+
     private void undoFatalError()
     {
         // Time to change the UI a little

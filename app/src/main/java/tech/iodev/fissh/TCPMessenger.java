@@ -24,6 +24,7 @@ public class TCPMessenger {
 
     private static String SERVER_IP;
     private static String PASSWORD;
+    private static FingerprintHandler CONTEXT;
 
 
     public static final String TAG = "FiSSH";
@@ -32,10 +33,11 @@ public class TCPMessenger {
     /**
      *  Constructor of the class. OnMessagedReceived listens for the messages received from server
      */
-    public TCPMessenger(String ip, String password)
+    public TCPMessenger(FingerprintHandler context, String ip, String password)
     {
         SERVER_IP = ip;
         PASSWORD = password;
+        CONTEXT = context;
     }
 
 
@@ -43,7 +45,7 @@ public class TCPMessenger {
 
     public void run() {
 
-        TCPMessageSendTask sender = new TCPMessageSendTask(PASSWORD);
+        TCPMessageSendTask sender = new TCPMessageSendTask(CONTEXT, PASSWORD);
         sender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
@@ -78,9 +80,12 @@ public class TCPMessenger {
         private PrintWriter out;
         private String message;
         private SSLSocket socket = null;
+        private FingerprintHandler context = null;
 
-        public TCPMessageSendTask(String message){
+
+        public TCPMessageSendTask(FingerprintHandler context, String message){
             this.message = message;
+            this.context = context;
         }
 
         @Override
@@ -106,7 +111,7 @@ public class TCPMessenger {
 
 
                 } catch (Exception e) {
-
+                    context.reportNetworkError();
                     Log.e(TAG, "Server Error", e);
 
                 } finally {
@@ -117,9 +122,13 @@ public class TCPMessenger {
                             out.flush();
                         }
                         catch (Exception e){
+                            context.reportNetworkError();
                             Log.e(TAG, "Some Error happened!");
                         }
                     }
+
+                    // Tell Fingerprint Handler all is fine
+                    context.onAuthorizationFinished();
 
                     // Close the socket after stopClient is called
                     out.close();
@@ -127,7 +136,7 @@ public class TCPMessenger {
                 }
 
             } catch (Exception e) {
-
+                context.reportNetworkError();
                 Log.e(TAG, "Error", e);
 
             }

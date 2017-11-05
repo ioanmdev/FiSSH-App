@@ -80,20 +80,50 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 
-            TCPMessenger msg = new TCPMessenger(COMPUTER_IP, PASSWORD);
+            TCPMessenger msg = new TCPMessenger(this, COMPUTER_IP, PASSWORD);
             msg.run();
-
-            Toast.makeText(context, "Success! Authorization sent to " + COMPUTER_IP, Toast.LENGTH_LONG).show();
-
-            // Restart scan
-            context.ScanRunning = false;
-            context.runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    context.ScanFinger();
-                }
-            });
     }
+
+    private void rescan()
+    {
+        // Restart scan
+        context.ScanRunning = false;
+        context.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                context.ScanFinger();
+            }
+        });
+    }
+
+
+    public void reportNetworkError()
+    {
+        context.runOnUiThread(new Runnable() {
+
+                                  @Override
+                                  public void run() {
+                                      context.reportFatalNetworkError();
+                                  }
+                              });
+
+
+    }
+
+    // Runs after the SSH key phrase has been sent through network
+    public void onAuthorizationFinished()
+    {
+        // Notify user of success
+        context.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast.makeText(context, "Success! Authorization sent to " + COMPUTER_IP, Toast.LENGTH_LONG).show();
+            }
+        });
+        rescan();
+    }
+
 
 }
