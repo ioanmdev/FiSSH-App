@@ -10,11 +10,12 @@ import android.util.Log;
 
 import java.io.*;
 import java.net.Socket;
-import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -53,8 +54,8 @@ public class TCPMessenger {
     }
 
 
-    // Don't bother checking certificates
-    TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+    // Check self signed certificates
+    TrustManager[] selfSignedTrust = new TrustManager[] { new X509TrustManager() {
         public X509Certificate[] getAcceptedIssuers() {
             return null;
         }
@@ -62,11 +63,30 @@ public class TCPMessenger {
         @Override
         public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
             // Not implemented
+            // Client doesn't have any certificate
         }
 
         @Override
         public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-            // Not implemented
+            // Server certificate is always first in chain
+            byte[] serverCert = arg0[0].getEncoded();
+
+            try {
+                byte[] oldCert = Selfish.selfish.getStoredCertificate();
+
+                if (Arrays.equals(serverCert, oldCert))
+                    return; // All is fine, certificate checks out
+
+                CONTEXT.reportUnknownCertificate(Selfish.getX509Fingerprint(oldCert), Selfish.getX509Fingerprint(serverCert), serverCert);
+            }
+            catch (Exception e)
+            {
+                CONTEXT.reportUnknownCertificate("NONE", Selfish.getX509Fingerprint(serverCert), serverCert);
+            }
+
+            throw new CertificateException();
+
+
         }
     } };
 
@@ -96,7 +116,7 @@ public class TCPMessenger {
 
                 //create a socket to make the connection with the server
                 SSLContext sc = SSLContext.getInstance("TLS");
-                sc.init(null, trustAllCerts, new java.security.SecureRandom());
+                sc.init(null, selfSignedTrust, new java.security.SecureRandom());
                 socket = (SSLSocket) sc.getSocketFactory().createSocket(new Socket(SERVER_IP, 2222), SERVER_IP, 2222, false);
 
                 socket.startHandshake();
@@ -135,7 +155,12 @@ public class TCPMessenger {
                     socket.close();
                 }
 
-            } catch (Exception e) {
+            }
+            catch (SSLHandshakeException he)
+            {
+                Log.e(TAG, "Certificate Error", he);
+            }
+            catch (Exception e) {
                 context.reportNetworkError();
                 Log.e(TAG, "Error", e);
 

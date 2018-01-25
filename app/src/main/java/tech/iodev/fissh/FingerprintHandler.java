@@ -118,6 +118,19 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     }
 
+    public void reportUnknownCertificate(final String oldFingerprint, final String newFingerprint, final byte[] toSave)
+    {
+        context.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                context.reportCertificateError(oldFingerprint, newFingerprint, toSave);
+            }
+        });
+
+
+    }
+
     // Runs after the SSH key phrase has been sent through network
     public void onAuthorizationFinished()
     {

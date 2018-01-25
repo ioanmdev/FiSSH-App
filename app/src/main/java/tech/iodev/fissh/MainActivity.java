@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         settings =  getSharedPreferences(PREFS_NAME, 0);
+
+        // Init selfish (self signed utils)
+        new Selfish(this);
+
         // Check if the app has been run previously
         if(settings.getBoolean("first_run", true)) {
             Intent configureApp = new Intent(this, SettingsActivity.class);
@@ -312,6 +316,51 @@ public class MainActivity extends AppCompatActivity {
         TextView fingerPrinttext = (TextView) findViewById(R.id.fingerprint_text);
         fingerPrinttext.setText("Network failed! Click retry!");
     }
+
+    public void reportCertificateError(String oldFingerprint, String newFingerprint, final byte[] toSave)
+    {
+        ScanRunning = false;
+
+        // Display an error message
+        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+
+        bld.setTitle("Connection Aborted");
+
+        if (oldFingerprint.equals("NONE"))
+            bld.setMessage("FiSSH now supports self-signed certificate validation to prevent Man-In-The-Middle attacks\n\nPlease confirm that your certificate's fingerprint is:\n" + newFingerprint + "\n\nIf you confirm this certificate, it will be stored and trusted from now on.");
+        else
+            bld.setMessage("Unknown Certificate!\n\nWarning: This could be a Man-In-The-Middle attack\n\nThe fingerprint of the NEW certificate is:\n" + newFingerprint + "\n\nAnd the fingerprint of the trusted (stored) certificate is:\n" + oldFingerprint + "\n\nShould I trust the new one from now on?");
+
+        bld.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Toast.makeText(getApplicationContext(), "New certificate REJECTED by user!", Toast.LENGTH_LONG).show();
+                ScanFinger();
+            }
+        });
+
+        bld.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                try {
+                    Selfish.selfish.setStoredCertificate(toSave);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                Toast.makeText(getApplicationContext(), "New certificate APPROVED by user!", Toast.LENGTH_LONG).show();
+                ScanFinger();
+            }
+        });
+
+
+
+        AlertDialog errorMsg = bld.create();
+        errorMsg.show();
+
+    }
+
 
     private void undoFatalError()
     {
