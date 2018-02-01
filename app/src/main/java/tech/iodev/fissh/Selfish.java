@@ -15,7 +15,6 @@ import java.security.MessageDigest;
 public class Selfish {
     private Context context;
     private FileInputStream inputStream;
-    private FileOutputStream outputStream;
     private String FILENAME = "fissh_cert";
 
     public static Selfish selfish;
@@ -25,8 +24,8 @@ public class Selfish {
         this.selfish.context = ctx;
     }
 
-
-    public byte[] getStoredCertificate() throws FileNotFoundException, IOException {
+    // Kept only for backwards compatibility
+    public byte[] getStoredCertificateInFile() throws FileNotFoundException, IOException {
 
         inputStream = context.openFileInput(FILENAME);
         byte[] cert = new byte[inputStream.available()];
@@ -35,12 +34,6 @@ public class Selfish {
         inputStream.close();
 
         return cert;
-    }
-
-    public void setStoredCertificate(byte[] cert) throws FileNotFoundException, IOException {
-        outputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-        outputStream.write(cert);
-        outputStream.close();
     }
 
     // X509 fingerprint utils

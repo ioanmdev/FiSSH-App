@@ -1,5 +1,6 @@
 package tech.iodev.fissh;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,10 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class SettingsActivity extends AppCompatActivity {
-    public static final String PREFS_NAME = "FiSSH";
 
-    SharedPreferences settings;
-    SharedPreferences.Editor editor;
 
     TextView computerIP;
     EditText password;
@@ -20,28 +18,21 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        settings = getSharedPreferences(PREFS_NAME, 0);
-        editor = settings.edit();
 
         computerIP  = (TextView) findViewById(R.id.txtComputerIp);
         password =  (EditText) findViewById(R.id.txtPassword);
 
-        computerIP.setText(settings.getString("computer_ip", "10.0.0.0"));
-        password.setText(settings.getString("password", ""));
+        computerIP.setText(getIntent().getStringExtra("computer_ip"));
+        password.setText(getIntent().getStringExtra("password"));
     }
 
     public void save_settings(View sender)
     {
-        // Disable config screen on startup
-        editor.putBoolean("first_run", false);
+        Intent result = new Intent();
+        result.putExtra("computer_ip", computerIP.getText().toString());
+        result.putExtra("password", password.getText().toString());
 
-        // Save IP and password
-        editor.putString("computer_ip", computerIP.getText().toString());
-        editor.putString("password", password.getText().toString());
-
-        // COMMIT!
-        editor.commit();
-
+        setResult(RESULT_OK, result);
         finish();
     }
 

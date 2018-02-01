@@ -23,21 +23,19 @@ import javax.net.ssl.X509TrustManager;
 public class TCPMessenger {
 
 
-    private static String SERVER_IP;
-    private static String PASSWORD;
-    private static FingerprintHandler CONTEXT;
+    private Computer computerDetails;
+    private FingerprintHandler CONTEXT;
 
 
-    public static final String TAG = "FiSSH";
+    public final String TAG = "FiSSH";
 
 
     /**
      *  Constructor of the class. OnMessagedReceived listens for the messages received from server
      */
-    public TCPMessenger(FingerprintHandler context, String ip, String password)
+    public TCPMessenger(FingerprintHandler context, Computer details)
     {
-        SERVER_IP = ip;
-        PASSWORD = password;
+        computerDetails = details;
         CONTEXT = context;
     }
 
@@ -46,7 +44,7 @@ public class TCPMessenger {
 
     public void run() {
 
-        TCPMessageSendTask sender = new TCPMessageSendTask(CONTEXT, PASSWORD);
+        TCPMessageSendTask sender = new TCPMessageSendTask(CONTEXT);
         sender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
@@ -72,7 +70,7 @@ public class TCPMessenger {
             byte[] serverCert = arg0[0].getEncoded();
 
             try {
-                byte[] oldCert = Selfish.selfish.getStoredCertificate();
+                byte[] oldCert = computerDetails.Certificate;
 
                 if (Arrays.equals(serverCert, oldCert))
                     return; // All is fine, certificate checks out
@@ -98,13 +96,11 @@ public class TCPMessenger {
 
 
         private PrintWriter out;
-        private String message;
         private SSLSocket socket = null;
         private FingerprintHandler context = null;
 
 
-        public TCPMessageSendTask(FingerprintHandler context, String message){
-            this.message = message;
+        public TCPMessageSendTask(FingerprintHandler context){
             this.context = context;
         }
 
@@ -117,7 +113,7 @@ public class TCPMessenger {
                 //create a socket to make the connection with the server
                 SSLContext sc = SSLContext.getInstance("TLS");
                 sc.init(null, selfSignedTrust, new java.security.SecureRandom());
-                socket = (SSLSocket) sc.getSocketFactory().createSocket(new Socket(SERVER_IP, 2222), SERVER_IP, 2222, false);
+                socket = (SSLSocket) sc.getSocketFactory().createSocket(new Socket(computerDetails.ComputerIP, 2222), computerDetails.ComputerIP, 2222, false);
 
                 socket.startHandshake();
 
@@ -138,7 +134,7 @@ public class TCPMessenger {
 
                     if (out != null && !out.checkError()) {
                         try{
-                            out.println(message);
+                            out.println(computerDetails.Password);
                             out.flush();
                         }
                         catch (Exception e){
