@@ -19,9 +19,13 @@ public class Selfish {
 
     public static Selfish selfish;
 
+    public ComputerDatabase DB;
+
     public Selfish(Context ctx) {
         this.selfish = this;
         this.selfish.context = ctx;
+
+        DB = new ComputerDatabase(context);
     }
 
     // Kept only for backwards compatibility

@@ -14,6 +14,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Init selfish (self signed utils)
+        new Selfish(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
             {
                 String computerIP = data.getStringExtra("computer_ip");
                 String password = data.getStringExtra("password");
+
+                Selfish.selfish.DB.addComputer(new Computer(computerIP, password));
             }
         }
     }

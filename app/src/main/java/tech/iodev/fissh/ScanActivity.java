@@ -59,8 +59,7 @@ public class ScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
 
 
-        // Init selfish (self signed utils)
-        new Selfish(this);
+
 
         // Load received data
 
