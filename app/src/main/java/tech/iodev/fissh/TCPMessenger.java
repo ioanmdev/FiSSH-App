@@ -72,6 +72,9 @@ public class TCPMessenger {
             try {
                 byte[] oldCert = computerDetails.Certificate;
 
+                if (oldCert == null)
+                    throw new Exception("Stored certificate not found");
+
                 if (Arrays.equals(serverCert, oldCert))
                     return; // All is fine, certificate checks out
 

@@ -25,6 +25,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
     private static final String KEY_COMPUTERIP = "computerip";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_CERTIFICATE = "certificate";
+    private static final String KEY_NICKNAME = "nickname";
 
     private Context CONTEXT;
 
@@ -36,7 +37,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // Initialize table
-        String CREATE_FISSH_TABLE = "CREATE TABLE " + TABLE_COMPUTERS + " (" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_COMPUTERIP + " TEXT," + KEY_PASSWORD + " TEXT," + KEY_CERTIFICATE + " BLOB);";
+        String CREATE_FISSH_TABLE = "CREATE TABLE " + TABLE_COMPUTERS + " (" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_NICKNAME + " TEXT," + KEY_COMPUTERIP + " TEXT," + KEY_PASSWORD + " TEXT," + KEY_CERTIFICATE + " BLOB);";
         sqLiteDatabase.execSQL(CREATE_FISSH_TABLE);
 
         upgradeFromPreferences();
@@ -55,6 +56,8 @@ public class ComputerDatabase extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+
+        values.put(KEY_NICKNAME, computer.Nickname);
         values.put(KEY_COMPUTERIP, computer.ComputerIP);
         values.put(KEY_PASSWORD, computer.Password);
 
@@ -72,7 +75,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Computer computerRow = new Computer(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getBlob(3));
+                Computer computerRow = new Computer(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getBlob(4));
                 results.add(computerRow);
             } while(cursor.moveToNext());
         }
@@ -86,6 +89,8 @@ public class ComputerDatabase extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+
+        values.put(KEY_NICKNAME, newInfo.Nickname);
         values.put(KEY_COMPUTERIP, newInfo.ComputerIP);
         values.put(KEY_PASSWORD, newInfo.Password);
         values.put(KEY_CERTIFICATE, newInfo.Certificate);
@@ -126,6 +131,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
 
             // Insert new computer
             Computer backPorted = new Computer(computerIP, password);
+            backPorted.Nickname = "";
             addComputer(backPorted);
         }
     }

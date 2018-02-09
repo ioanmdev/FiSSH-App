@@ -58,11 +58,8 @@ public class ScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-
-
-
         // Load received data
-
+        computer = (Computer) getIntent().getSerializableExtra("computer");
 
         // Scan Finger
         ScanFinger();
@@ -218,11 +215,6 @@ public class ScanActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_settings:
-                Intent configureApp = new Intent(this, SettingsActivity.class);
-                // Be sure to wait for it to close
-                startActivityForResult(configureApp, 0);
-                return true;
             case R.id.menu_retry:
                 undoFatalError();
                 ScanFinger();
@@ -317,7 +309,8 @@ public class ScanActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
                 try {
-                   // Selfish.selfish.setStoredCertificate(toSave);
+                    computer.Certificate = toSave;
+                    Selfish.selfish.DB.updateComputer(computer);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
