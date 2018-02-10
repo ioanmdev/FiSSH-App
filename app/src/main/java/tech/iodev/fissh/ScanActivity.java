@@ -212,7 +212,7 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                finish();5
+                finish();
             }
         });
 
