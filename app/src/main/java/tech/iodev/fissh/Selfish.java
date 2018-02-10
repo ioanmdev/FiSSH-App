@@ -37,6 +37,8 @@ public class Selfish {
         inputStream.read(cert);
         inputStream.close();
 
+        context.deleteFile(FILENAME);
+
         return cert;
     }
 

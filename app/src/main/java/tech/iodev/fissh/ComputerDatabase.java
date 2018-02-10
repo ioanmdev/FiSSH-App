@@ -58,6 +58,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
         values.put(KEY_NICKNAME, computer.Nickname);
         values.put(KEY_COMPUTERIP, computer.ComputerIP);
         values.put(KEY_PASSWORD, computer.Password);
+        values.put(KEY_CERTIFICATE, computer.Certificate);
 
         sqLiteDatabase.insert(TABLE_COMPUTERS, null, values);
         sqLiteDatabase.close();
