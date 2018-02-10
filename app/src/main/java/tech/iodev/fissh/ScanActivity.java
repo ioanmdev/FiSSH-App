@@ -200,7 +200,24 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     public void FinishScanning() {
-        finish();
+        ScanRunning = false;
+
+        // Display an error message
+        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+
+        bld.setTitle("Success!");
+        bld.setMessage("Authorization sent to " + computer.Nickname + " (" + computer.ComputerIP + ")");
+
+        bld.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                finish();5
+            }
+        });
+
+        AlertDialog successMsg = bld.create();
+        successMsg.show();
     }
 
     private class FingerprintException extends Exception {

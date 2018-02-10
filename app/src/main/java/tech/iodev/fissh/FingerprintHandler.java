@@ -87,6 +87,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     private void reportScanningFinished()
     {
+        context.ScanRunning = false;
         context.runOnUiThread(new Runnable() {
 
             @Override
@@ -127,14 +128,6 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     public void onAuthorizationFinished()
     {
         // Notify user of success
-        context.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                Snackbar.make(context.findViewById(android.R.id.content), "Success! Authorization sent to " + computerDetails.ComputerIP, Snackbar.LENGTH_LONG).show();
-            }
-        });
-
         reportScanningFinished();
     }
 
