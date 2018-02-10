@@ -131,7 +131,16 @@ public class ComputerDatabase extends SQLiteOpenHelper {
 
             // Insert new computer
             Computer backPorted = new Computer(computerIP, password);
-            backPorted.Nickname = "";
+            backPorted.Nickname = "Unnamed Computer";
+
+            try {
+                backPorted.Certificate = Selfish.selfish.getStoredCertificateInFile();
+            }
+            catch (Exception ex)
+            {
+                // Ignore it, no big deal
+            }
+
             addComputer(backPorted);
         }
     }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
+import android.os.Handler;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
@@ -299,8 +300,16 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                //Toast.makeText(getApplicationContext(), "New certificate REJECTED by user!", Toast.LENGTH_LONG).show();
-                ScanFinger();
+
+                Snackbar.make(findViewById(android.R.id.content), "New certificate REJECTED by user!", Snackbar.LENGTH_LONG).show();
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ScanFinger();
+                    }
+                }, 2000);
             }
         });
 
@@ -308,14 +317,23 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+
                 try {
                     computer.Certificate = toSave;
                     Selfish.selfish.DB.updateComputer(computer);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                //Toast.makeText(getApplicationContext(), "New certificate APPROVED by user!", Toast.LENGTH_LONG).show();
-                ScanFinger();
+
+                Snackbar.make(findViewById(android.R.id.content), "New certificate APPROVED by user!", Snackbar.LENGTH_LONG).show();
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ScanFinger();
+                    }
+                }, 2000);
             }
         });
 

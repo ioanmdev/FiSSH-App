@@ -13,6 +13,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -70,13 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        lvComputers.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                removeComputer(i);
-                return true;
-            }
-        });
+        registerForContextMenu(lvComputers);
 
         // Actually load the computers
         loadComputers();
@@ -91,6 +88,34 @@ public class MainActivity extends AppCompatActivity {
                 addComputer();
             }
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == R.id.lvComputers) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            menu.setHeaderTitle("What do you want to do?");
+            menu.add(Menu.NONE, 0, 0, "Edit computer");
+            menu.add(Menu.NONE, 1, 1, "Delete computer");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = item.getItemId();
+
+
+        switch (index){
+            case 0:
+                editComputer(info.position);
+                break;
+            case 1:
+                removeComputer(info.position);
+                break;
+        }
+
+        return true;
     }
 
     private void scanFingerprint(Computer c)
@@ -154,6 +179,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void editComputer(int pos)
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
+
+        intent.putExtra("nickname", COMPUTERS.get(pos).Nickname);
+        intent.putExtra("computer_ip", COMPUTERS.get(pos).ComputerIP);
+        intent.putExtra("password", COMPUTERS.get(pos).Password);
+        intent.putExtra("id", pos);
+
+        startActivityForResult(intent, 1);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0)
@@ -165,6 +202,23 @@ public class MainActivity extends AppCompatActivity {
                 String password = data.getStringExtra("password");
 
                 Selfish.selfish.DB.addComputer(new Computer(nickname, computerIP, password));
+
+                loadComputers();
+            }
+        }
+        else if (requestCode == 1)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                int id = data.getIntExtra("id", -1);
+
+                Computer toEdit = COMPUTERS.get(id);
+
+                toEdit.Nickname = data.getStringExtra("nickname");
+                toEdit.ComputerIP = data.getStringExtra("computer_ip");
+                toEdit.Password = data.getStringExtra("password");
+
+                Selfish.selfish.DB.updateComputer(toEdit);
 
                 loadComputers();
             }

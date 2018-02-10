@@ -27,13 +27,6 @@ public class Computer implements Serializable {
         Password = password;
     }
 
-    public Computer(int id, String computerIP, String password)
-    {
-        Id = id;
-        ComputerIP = computerIP;
-        Password = password;
-    }
-
     public Computer(int id, String nickname, String computerIP, String password, byte[] certificate)
     {
         Id = id;

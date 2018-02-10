@@ -14,6 +14,7 @@ public class SettingsActivity extends AppCompatActivity {
     EditText computerIP;
     EditText password;
     EditText nickname;
+    int ID; // Computer ID
 
 
     @Override
@@ -28,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
         computerIP.setText(getIntent().getStringExtra("computer_ip"));
         password.setText(getIntent().getStringExtra("password"));
         nickname.setText(getIntent().getStringExtra("nickname"));
+
+        ID = getIntent().getIntExtra("id", -1);
     }
 
     public void save_settings(View sender)
@@ -36,6 +39,8 @@ public class SettingsActivity extends AppCompatActivity {
         result.putExtra("computer_ip", computerIP.getText().toString());
         result.putExtra("password", password.getText().toString());
         result.putExtra("nickname", nickname.getText().toString());
+
+        if (ID != -1) result.putExtra("id", ID);
 
         setResult(RESULT_OK, result);
         finish();
