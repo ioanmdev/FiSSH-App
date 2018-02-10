@@ -39,8 +39,6 @@ public class ComputerDatabase extends SQLiteOpenHelper {
         // Initialize table
         String CREATE_FISSH_TABLE = "CREATE TABLE " + TABLE_COMPUTERS + " (" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_NICKNAME + " TEXT," + KEY_COMPUTERIP + " TEXT," + KEY_PASSWORD + " TEXT," + KEY_CERTIFICATE + " BLOB);";
         sqLiteDatabase.execSQL(CREATE_FISSH_TABLE);
-
-        upgradeFromPreferences();
     }
 
     @Override
@@ -111,7 +109,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
      (from SharedPreferences)
       */
 
-    private void upgradeFromPreferences()
+    public void upgradeFromPreferences()
     {
         final String PREFS_NAME = "FiSSH";
 

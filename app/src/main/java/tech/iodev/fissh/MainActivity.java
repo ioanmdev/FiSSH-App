@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         // Init selfish (self signed utils)
         new Selfish(this);
 
+        // Copy all the old settings
+        Selfish.selfish.DB.upgradeFromPreferences();
+
         // Prepare to load computers from Database
         ADAPTER = new ArrayAdapter<Computer>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
             @NonNull
