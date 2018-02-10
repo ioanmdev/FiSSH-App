@@ -85,15 +85,13 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
             msg.run();
     }
 
-    private void rescan()
+    private void reportScanningFinished()
     {
-        // Restart scan
-        context.ScanRunning = false;
         context.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
-                context.ScanFinger();
+                context.FinishScanning();
             }
         });
     }
@@ -136,7 +134,8 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
                 Snackbar.make(context.findViewById(android.R.id.content), "Success! Authorization sent to " + computerDetails.ComputerIP, Snackbar.LENGTH_LONG).show();
             }
         });
-        rescan();
+
+        reportScanningFinished();
     }
 
 

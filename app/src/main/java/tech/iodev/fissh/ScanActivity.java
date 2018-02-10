@@ -199,6 +199,10 @@ public class ScanActivity extends AppCompatActivity {
         }
     }
 
+    public void FinishScanning() {
+        finish();
+    }
+
     private class FingerprintException extends Exception {
         public FingerprintException(Exception e) {
             super(e);

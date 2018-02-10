@@ -29,7 +29,7 @@ public class Selfish {
     }
 
     // Kept only for backwards compatibility
-    public byte[] getStoredCertificateInFile() throws FileNotFoundException, IOException {
+    public byte[] getStoredCertificateInFile() throws IOException {
 
         inputStream = context.openFileInput(FILENAME);
         byte[] cert = new byte[inputStream.available()];
