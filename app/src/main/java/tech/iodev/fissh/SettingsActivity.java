@@ -1,12 +1,10 @@
 package tech.iodev.fissh;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -26,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
         password =  (EditText) findViewById(R.id.txtPassword);
         nickname = (EditText) findViewById(R.id.txtNickname);
 
+        addComputerIPErrorCheck();
+
         computerIP.setText(getIntent().getStringExtra("computer_ip"));
         password.setText(getIntent().getStringExtra("password"));
         nickname.setText(getIntent().getStringExtra("nickname"));
@@ -33,8 +33,31 @@ public class SettingsActivity extends AppCompatActivity {
         ID = getIntent().getIntExtra("id", -1);
     }
 
+    private void addComputerIPErrorCheck() {
+        computerIP.setOnFocusChangeListener(new EditText.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                // Check on defocus
+                if (!b) validateComputerIP();
+            }
+        });
+    }
+
+    private void validateComputerIP()
+    {
+        if (computerIP.getText().toString().equals("")) {
+            // Check if there's already an error set
+            if (computerIP.getError() != null) return;
+
+            computerIP.setError("Please enter Computer IP");
+        }
+    }
+
     public void save_settings(View sender)
     {
+        validateComputerIP();
+        if (computerIP.getError() != null) return;
+
         Intent result = new Intent();
         result.putExtra("computer_ip", computerIP.getText().toString());
         result.putExtra("password", password.getText().toString());
