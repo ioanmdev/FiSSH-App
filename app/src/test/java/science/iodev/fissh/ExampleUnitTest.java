@@ -1,4 +1,4 @@
-package tech.iodev.fissh;
+package science.iodev.fissh;
 
 import org.junit.Test;
 

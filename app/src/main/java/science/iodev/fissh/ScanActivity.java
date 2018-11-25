@@ -1,10 +1,9 @@
-package tech.iodev.fissh;
+package science.iodev.fissh;
 
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;

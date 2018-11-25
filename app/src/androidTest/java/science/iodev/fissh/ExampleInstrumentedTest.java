@@ -1,4 +1,4 @@
-package tech.iodev.fissh;
+package science.iodev.fissh;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("tech.iodev.fissh", appContext.getPackageName());
+        assertEquals("science.iodev.fissh", appContext.getPackageName());
     }
 }
