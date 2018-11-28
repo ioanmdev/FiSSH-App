@@ -7,8 +7,8 @@ android {
         applicationId "science.iodev.fissh"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 25
-        versionName "2.5"
+        versionCode 26
+        versionName "2.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
