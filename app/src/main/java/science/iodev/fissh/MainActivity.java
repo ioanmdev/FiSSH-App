@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(scanIntent);
     }
 
-
     private void removeComputer (final int pos)
     {
         // Display an error message
@@ -149,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 loadComputers();
             }
         });
-
-
 
         AlertDialog errorMsg = bld.create();
         errorMsg.show();

@@ -22,33 +22,20 @@ import javax.net.ssl.X509TrustManager;
 
 public class TCPMessenger {
 
-
     private Computer computerDetails;
     private FingerprintHandler CONTEXT;
 
-
     public final String TAG = "FiSSH";
 
-
-    /**
-     *  Constructor of the class. OnMessagedReceived listens for the messages received from server
-     */
     public TCPMessenger(FingerprintHandler context, Computer details)
     {
         computerDetails = details;
         CONTEXT = context;
     }
 
-
-
-
     public void run() {
-
         TCPMessageSendTask sender = new TCPMessageSendTask(CONTEXT);
         sender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-
-
     }
 
 
@@ -86,8 +73,6 @@ public class TCPMessenger {
             }
 
             throw new CertificateException();
-
-
         }
     } };
 
@@ -95,8 +80,6 @@ public class TCPMessenger {
      * A simple task for sending messages across the network.
      */
     public class TCPMessageSendTask extends AsyncTask<Void, Void, Void> {
-
-
 
         private PrintWriter out;
         private SSLSocket socket = null;
@@ -126,8 +109,6 @@ public class TCPMessenger {
                     out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
                     Log.d(TAG, "Connected!");
-
-
 
                 } catch (Exception e) {
                     context.reportNetworkError();
@@ -164,7 +145,6 @@ public class TCPMessenger {
                 Log.e(TAG, "Error", e);
 
             }
-
 
             return null;
         }

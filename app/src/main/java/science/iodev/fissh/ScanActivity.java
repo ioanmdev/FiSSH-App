@@ -47,7 +47,6 @@ public class ScanActivity extends AppCompatActivity {
     private FingerprintManager.CryptoObject cryptoObject;
     private FingerprintHandler fingerprintHelper;
 
-
     private Computer computer;
 
     public Boolean ScanRunning = false;
@@ -357,13 +356,9 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
 
-
-
         AlertDialog errorMsg = bld.create();
         errorMsg.show();
-
     }
-
 
     private void undoFatalError()
     {

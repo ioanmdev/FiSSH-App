@@ -8,12 +8,10 @@ import android.widget.EditText;
 
 public class SettingsActivity extends AppCompatActivity {
 
-
     EditText computerIP;
     EditText password;
     EditText nickname;
     int ID; // Computer ID
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,5 +66,4 @@ public class SettingsActivity extends AppCompatActivity {
         setResult(RESULT_OK, result);
         finish();
     }
-
 }
