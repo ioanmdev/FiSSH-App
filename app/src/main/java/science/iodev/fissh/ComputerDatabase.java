@@ -29,7 +29,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
 
     private Context CONTEXT;
 
-    public ComputerDatabase(Context context) {
+    ComputerDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         CONTEXT = context;
     }
@@ -50,7 +50,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
 
     // CRUD methods
 
-    public void addComputer(Computer computer) {
+    void addComputer(Computer computer) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -64,7 +64,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public List<Computer> getComputers() {
+    List<Computer> getComputers() {
         List<Computer> results = new ArrayList<Computer>();
 
         String SELECT_QUERY = "SELECT * FROM " + TABLE_COMPUTERS;
@@ -84,7 +84,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
         return results;
     }
 
-    public void updateComputer (Computer newInfo) {
+    void updateComputer(Computer newInfo) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -98,7 +98,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteComputer (Computer toDelete) {
+    void deleteComputer(Computer toDelete) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(TABLE_COMPUTERS, KEY_ID + " = ? ", new String[] {String.valueOf(toDelete.Id)});
         sqLiteDatabase.close();
@@ -110,7 +110,7 @@ public class ComputerDatabase extends SQLiteOpenHelper {
      (from SharedPreferences)
       */
 
-    public void upgradeFromPreferences()
+    void upgradeFromPreferences()
     {
         final String PREFS_NAME = "FiSSH";
 

@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -99,8 +100,9 @@ public class TCPMessenger {
                 //create a socket to make the connection with the server
                 SSLContext sc = SSLContext.getInstance("TLS");
                 sc.init(null, selfSignedTrust, new java.security.SecureRandom());
-                socket = (SSLSocket) sc.getSocketFactory().createSocket(new Socket(computerDetails.ComputerIP, 2222), computerDetails.ComputerIP, 2222, false);
 
+                socket = (SSLSocket) sc.getSocketFactory().createSocket();
+                socket.connect(new InetSocketAddress(computerDetails.ComputerIP, 2222), 4000);
                 socket.startHandshake();
 
                 try {

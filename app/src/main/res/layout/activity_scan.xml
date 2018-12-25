@@ -28,6 +28,4 @@
         android:id="@+id/fingerprint_image"
          />
 
-
-
 </LinearLayout>

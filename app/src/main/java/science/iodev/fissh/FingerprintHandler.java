@@ -16,22 +16,19 @@ import android.support.v4.app.ActivityCompat;
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
-    // You should use the CancellationSignal method whenever your app can no longer process user input, for example when your app goes
-    // into the background. If you don’t use this method, then other apps will be unable to access the touch sensor, including the lockscreen!//
-
     private CancellationSignal cancellationSignal;
     private ScanActivity context;
 
     // Passed by ScanActivity
     private Computer computerDetails;
 
-    public FingerprintHandler(ScanActivity mContext) {
+    FingerprintHandler(ScanActivity mContext) {
         context = mContext;
     }
 
     //Implement the startAuth method, which is responsible for starting the fingerprint authentication process//
 
-    public void startAuth(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject, Computer details) {
+    void startAuth(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject, Computer details) {
 
         computerDetails = details;
 
@@ -42,7 +39,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
         manager.authenticate(cryptoObject, cancellationSignal, 0, this, null);
     }
 
-    public void cancelAuth()
+    void cancelAuth()
     {
         // Send out the cancel!
         cancellationSignal.cancel();
@@ -98,7 +95,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     }
 
 
-    public void reportNetworkError()
+    void reportNetworkError()
     {
         context.runOnUiThread(new Runnable() {
 
@@ -111,7 +108,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     }
 
-    public void reportUnknownCertificate(final String oldFingerprint, final String newFingerprint, final byte[] toSave)
+    void reportUnknownCertificate(final String oldFingerprint, final String newFingerprint, final byte[] toSave)
     {
         context.runOnUiThread(new Runnable() {
 
@@ -125,7 +122,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     }
 
     // Runs after the SSH key phrase has been sent through network
-    public void onAuthorizationFinished()
+    void onAuthorizationFinished()
     {
         // Notify user of success
         reportScanningFinished();
