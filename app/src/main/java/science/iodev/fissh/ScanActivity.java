@@ -227,7 +227,7 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.option_menu, menu); //your file name
+        inflater.inflate(R.menu.option_scan_menu, menu); //your file name
         return super.onCreateOptionsMenu(menu);
     }
 
