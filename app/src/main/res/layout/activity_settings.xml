@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="science.iodev.fissh.SettingsActivity"
+    tools:context="ro.ioanm.fissh.SettingsActivity"
     android:layout_margin="20dp"
     android:orientation="vertical">
 

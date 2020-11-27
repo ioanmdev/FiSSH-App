@@ -1,4 +1,4 @@
-package science.iodev.fissh;
+package ro.ioanm.fissh;
 
 /**
  * Created by Ioan Moldovan on 10/29/2017.

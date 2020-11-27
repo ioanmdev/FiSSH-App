@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="science.iodev.fissh">
+    package="ro.ioanm.fissh">
 
     <uses-permission
-        android:name="android.permission.USE_FINGERPRINT"
+        android:name="android.permission.FINGERPRINT"
         android:required="true" />
     <uses-permission
         android:name="android.permission.INTERNET"
@@ -16,10 +16,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="science.iodev.fissh.ScanActivity" android:launchMode="singleInstance"/>
-        <activity android:name="science.iodev.fissh.SettingsActivity" android:launchMode="singleInstance"/>
+        <activity android:name="ro.ioanm.fissh.ScanActivity" android:launchMode="singleInstance"/>
+        <activity android:name="ro.ioanm.fissh.SettingsActivity" android:launchMode="singleInstance"/>
         <activity
-            android:name="science.iodev.fissh.MainActivity"
+            android:name="ro.ioanm.fissh.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

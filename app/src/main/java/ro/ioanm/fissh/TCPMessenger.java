@@ -1,4 +1,4 @@
-package science.iodev.fissh;
+package ro.ioanm.fissh;
 
 /**
  * Created by Ioan Moldovan on 10/29/2017.
@@ -10,7 +10,6 @@ import android.util.Log;
 
 import java.io.*;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package science.iodev.fissh;
+package ro.ioanm.fissh;
 
 import java.io.Serializable;
 
