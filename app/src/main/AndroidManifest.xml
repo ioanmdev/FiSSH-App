@@ -4,7 +4,7 @@
     package="ro.ioanm.fissh">
 
     <uses-permission
-        android:name="android.permission.USE_BIOMETRIC"
+        android:name="android.permission.USE_FINGERPRINT"
         android:required="true" />
     <uses-permission
         android:name="android.permission.INTERNET"
