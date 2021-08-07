@@ -1,0 +1,20 @@
+This Android app stores your SSH key phrase and sends it to your PC securely via the LAN when an authorized fingerprint is detected by the Android fingerprint scanner.
+
+This app is free open-source software (licensed MIT)
+
+The PC must either run Linux or Windows to use FiSSH.
+
+<strong>FiSSH for Linux</strong> is available on GitLab together with install instructions at: <a href="https://gitlab.com/ioanm/fissh-desktop/blob/master/INSTALL.md">https://gitlab.com/ioanm/fissh-desktop/blob/master/INSTALL.md</a>.
+
+<strong>FiSSH for Windows</strong> uses the Windows Subsystem for Linux. The Windows edition is also open source and published to: <a href="https://gitlab.com/ioanm/fissh-windows">https://gitlab.com/ioanm/fissh-windows</a>.
+
+To install FiSSH for Windows run the command inside WSL (Windows Subsystem for Linux) UBUNTU distro:
+<strong>curl https://gitlab.com/ioanm/fissh-windows/raw/master/Release/install.sh | sudo bash</strong>
+
+The PC app then returns the received passphrase to OpenSSH and the standard ssh binary completes the login process.
+
+It is important to note that none of the FiSSH apps have access to private key file and that FiSSH uses TLS sockets with certificate validation to prevent man-in-the-middle attacks!
+
+Source Code:
+Linux part - <a href="https://www.gitlab.com/ioanm/FiSSH-Desktop">https://www.gitlab.com/ioanm/FiSSH-Desktop</a>
+Android app - <a href="https://www.gitlab.com/ioanm/FiSSH-App">https://www.gitlab.com/ioanm/FiSSH-App</a>
