@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsFragment"
+    android:layout_margin="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lblNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friendly name"
+        android:textSize="25dp"
+        />
+
+    <EditText
+        android:id="@+id/txtNickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        />
+
+    <TextView
+        android:id="@+id/lblComputerIp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Computer IP"
+        android:textSize="25dp"
+        />
+
+    <EditText
+        android:id="@+id/txtComputerIp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        />
+
+    <TextView
+        android:id="@+id/lblPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SSH Key Passphrase"
+        android:textSize="25dp"
+        />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:inputType="textPassword"
+        />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save computer"
+        />
+</androidx.appcompat.widget.LinearLayoutCompat>
