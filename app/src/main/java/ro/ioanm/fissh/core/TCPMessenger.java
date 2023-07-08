@@ -38,7 +38,7 @@ public class TCPMessenger {
 
     public void run() {
         TCPMessageSendTask sender = new TCPMessageSendTask(CONTEXT);
-        sender.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        sender.execute();
     }
 
 
@@ -67,22 +67,12 @@ public class TCPMessenger {
 
                 if (Arrays.equals(serverCert, oldCert))
                     return; // All is fine, certificate checks out
-                CONTEXT.requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CONTEXT.reportUnknownCertificate(Selfish.getX509Fingerprint(oldCert), Selfish.getX509Fingerprint(serverCert), serverCert);
-                    }
-                });
+                CONTEXT.requireActivity().runOnUiThread(() -> CONTEXT.reportUnknownCertificate(Selfish.getX509Fingerprint(oldCert), Selfish.getX509Fingerprint(serverCert), serverCert));
 
             }
             catch (Exception e)
             {
-                CONTEXT.requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CONTEXT.reportUnknownCertificate("NONE", Selfish.getX509Fingerprint(serverCert), serverCert);
-                    }
-                });
+                CONTEXT.requireActivity().runOnUiThread(() -> CONTEXT.reportUnknownCertificate("NONE", Selfish.getX509Fingerprint(serverCert), serverCert));
 
             }
 
@@ -94,7 +84,7 @@ public class TCPMessenger {
      * A simple task for sending messages across the network.
      */
     @SuppressLint("StaticFieldLeak")
-    public class TCPMessageSendTask extends AsyncTask<Void, Void, Void> {
+    public class TCPMessageSendTask extends BackgroundTask {
 
         private PrintWriter out;
         private SSLSocket socket = null;
@@ -106,7 +96,7 @@ public class TCPMessenger {
         }
 
         @Override
-        protected Void doInBackground(Void... arg0){
+        public void doInBackground(){
 
             try {
                 Log.d(TAG, "Connecting...");
@@ -127,12 +117,7 @@ public class TCPMessenger {
                     Log.d(TAG, "Connected!");
 
                 } catch (Exception e) {
-                    context.requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            context.reportNetworkError();
-                        }
-                    });
+                    context.requireActivity().runOnUiThread(() -> context.reportNetworkError());
                     Log.e(TAG, "Server Error", e);
 
                 } finally {
@@ -143,12 +128,7 @@ public class TCPMessenger {
                             out.flush();
                         }
                         catch (Exception e){
-                            context.requireActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    context.reportNetworkError();
-                                }
-                            });
+                            context.requireActivity().runOnUiThread(() -> context.reportNetworkError());
 
                             Log.e(TAG, "Some Error happened!");
                         }
@@ -156,12 +136,7 @@ public class TCPMessenger {
 
                     // Tell Fingerprint Handler all is fine
 
-                    context.requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            context.authorizationSent();
-                        }
-                    });
+                    context.requireActivity().runOnUiThread(() -> context.authorizationSent());
 
                     // Close the socket after stopClient is called
                     out.close();
@@ -174,18 +149,14 @@ public class TCPMessenger {
                 Log.e(TAG, "Certificate Error", he);
             }
             catch (Exception e) {
-                context.requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        context.reportNetworkError();
-                    }
-                });
+                context.requireActivity().runOnUiThread(() -> context.reportNetworkError());
 
                 Log.e(TAG, "Error", e);
 
             }
 
-            return null;
         }
+
+
     }
 }

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FiSSH" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.FiSSH" parent="Theme.Material3.Light">
         <!-- Theme color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -8,7 +8,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorOnSecondary">@color/colorBlack</item>
+        <item name="colorOnSecondary">@color/colorBlack</item>s
     </style>
 
     <style name="Theme.FiSSH.NoActionBar">

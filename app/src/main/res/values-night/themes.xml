@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FiSSH" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.FiSSH" parent="Theme.Material3.Dark">
         <!-- Theme color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

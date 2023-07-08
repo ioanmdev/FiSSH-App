@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("MIT License")
         builder.setMessage(
             """
-            Copyright (c) 2021 Ioan Moldovan
+            Copyright (c) 2023 Ioan Moldovan
             
             Permission is hereby granted, free of charge, to any person obtaining a copy
             of this software and associated documentation files (the "Software"), to deal
